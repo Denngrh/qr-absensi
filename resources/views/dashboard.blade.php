@@ -61,7 +61,13 @@
                 <tbody>
                     @forelse($recentAbsensi as $absensi)
                     <tr>
-                        <td>{{ $absensi->participant->nama }}</td>
+                        <td>
+                            @if($absensi->participant)
+                                {{ $absensi->participant->nama }}
+                            @else
+                                <span class="text-muted">Data tidak ditemukan</span>
+                            @endif
+                        </td>
                         <td>
                             <span class="badge bg-{{ $absensi->participant_type == 'mahasiswa' ? 'primary' : 'success' }}">
                                 {{ ucfirst($absensi->participant_type) }}

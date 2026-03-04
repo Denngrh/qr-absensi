@@ -37,4 +37,5 @@ Route::middleware(['auth'])->group(function () {
     // Absensi routes
     Route::get('/absensi', [AbsensiController::class, 'index'])->name('absensi.index');
     Route::get('/absensi/export', [AbsensiController::class, 'export'])->name('absensi.export');
+    Route::delete('/absensi/{absensi}', [AbsensiController::class, 'destroy'])->name('absensi.destroy');
 });

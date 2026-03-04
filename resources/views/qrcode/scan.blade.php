@@ -86,7 +86,11 @@
         const participantId = $('#participant_id').val();
 
         if (!qrCode || !participantType || !participantId) {
-            alert('Semua field harus diisi!');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Perhatian!',
+                text: 'Semua field harus diisi!'
+            });
             return;
         }
 

@@ -29,19 +29,21 @@ class Absensi extends Model
         return $this->belongsTo(QrCode::class);
     }
 
-    public function participant()
+    public function mahasiswa()
     {
-        if ($this->participant_type === 'mahasiswa') {
-            return $this->belongsTo(Mahasiswa::class, 'participant_id');
-        }
+        return $this->belongsTo(Mahasiswa::class, 'participant_id');
+    }
+
+    public function panitia()
+    {
         return $this->belongsTo(Panitia::class, 'participant_id');
     }
 
     public function getParticipantAttribute()
     {
         if ($this->participant_type === 'mahasiswa') {
-            return Mahasiswa::find($this->participant_id);
+            return $this->mahasiswa;
         }
-        return Panitia::find($this->participant_id);
+        return $this->panitia;
     }
 }

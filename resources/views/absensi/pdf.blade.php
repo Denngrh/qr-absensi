@@ -57,13 +57,15 @@
                 <td>{{ $index + 1 }}</td>
                 <td>{{ ucfirst($absensi->participant_type) }}</td>
                 <td>
-                    @if($absensi->participant_type == 'mahasiswa')
+                    @if($absensi->participant_type == 'mahasiswa' && $absensi->participant)
                         {{ $absensi->participant->nim }}
-                    @else
+                    @elseif($absensi->participant)
                         {{ $absensi->participant->nip }}
+                    @else
+                        -
                     @endif
                 </td>
-                <td>{{ $absensi->participant->nama }}</td>
+                <td>{{ $absensi->participant ? $absensi->participant->nama : 'Data tidak ditemukan' }}</td>
                 <td>{{ $absensi->scan_time->format('d/m/Y H:i:s') }}</td>
                 <td>{{ $absensi->status }}</td>
             </tr>

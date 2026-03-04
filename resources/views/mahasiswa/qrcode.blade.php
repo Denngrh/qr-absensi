@@ -74,7 +74,8 @@
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-    const qrcode = new QRCode(document.getElementById("qrcode"), {
+    // Generate QR Code
+    new QRCode(document.getElementById("qrcode"), {
         text: "{{ $mahasiswa->qr_code }}",
         width: 300,
         height: 300,

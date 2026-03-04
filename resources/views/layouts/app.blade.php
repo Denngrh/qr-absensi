@@ -84,12 +84,12 @@
                         </a>
                     </li>
                     <li class="nav-item mt-2 mt-md-4">
-                        <form action="{{ route('logout') }}" method="POST">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
-                            <button type="submit" class="nav-link btn btn-link text-start w-100">
-                                <i class="bi bi-box-arrow-right"></i> <span class="d-none d-md-inline">Logout</span>
-                            </button>
                         </form>
+                        <button type="button" class="nav-link btn btn-link text-start w-100" id="logout-btn">
+                            <i class="bi bi-box-arrow-right"></i> <span class="d-none d-md-inline">Logout</span>
+                        </button>
                     </li>
                 </ul>
             </div>
@@ -117,6 +117,33 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Logout confirmation with SweetAlert
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: 'Logout?',
+                        text: "Apakah Anda yakin ingin keluar dari sistem?",
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, Logout!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('logout-form').submit();
+                        }
+                    });
+                });
+            }
+        });
+    </script>
     @yield('scripts')
 </body>
 </html>

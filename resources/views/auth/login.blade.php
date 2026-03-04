@@ -28,7 +28,7 @@
                 <div class="card login-card">
                     <div class="card-body p-5">
                         <div class="text-center mb-4">
-                            <i class="bi bi-qr-code-scan" style="font-size: 4rem; color: #667eea;"></i>
+                            <img src="{{ asset('assets/img/himainhouse.png') }}" alt="Logo Himainfo" style="width: 100px; height: 100px; margin-bottom: 15px; object-fit: contain;">
                             <h3 class="mt-3">QR Absensi System</h3>
                             <p class="text-muted">Admin Login</p>
                         </div>

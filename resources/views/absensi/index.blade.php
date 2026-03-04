@@ -57,21 +57,27 @@
                         <th class="d-none d-lg-table-cell">ID Peserta</th>
                         <th>Waktu Scan</th>
                         <th class="d-none d-md-table-cell">Status</th>
+                        <th class="text-center">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($absensis as $absensi)
                     <tr>
                         <td class="ps-3">
-                            <strong class="d-block">{{ $absensi->participant->nama }}</strong>
-                            <small class="text-muted d-md-none">
-                                {{ ucfirst($absensi->participant_type) }}
-                                @if($absensi->participant_type == 'mahasiswa')
-                                    - {{ $absensi->participant->nim }}
-                                @else
-                                    - {{ $absensi->participant->nip }}
-                                @endif
-                            </small>
+                            @if($absensi->participant)
+                                <strong class="d-block">{{ $absensi->participant->nama }}</strong>
+                                <small class="text-muted d-md-none">
+                                    {{ ucfirst($absensi->participant_type) }}
+                                    @if($absensi->participant_type == 'mahasiswa')
+                                        - {{ $absensi->participant->nim }}
+                                    @else
+                                        - {{ $absensi->participant->nip }}
+                                    @endif
+                                </small>
+                            @else
+                                <strong class="d-block text-muted">Data tidak ditemukan</strong>
+                                <small class="text-muted d-md-none">{{ ucfirst($absensi->participant_type) }}</small>
+                            @endif
                         </td>
                         <td class="d-none d-md-table-cell">
                             <span class="badge bg-{{ $absensi->participant_type == 'mahasiswa' ? 'primary' : 'success' }}">
@@ -79,10 +85,14 @@
                             </span>
                         </td>
                         <td class="d-none d-lg-table-cell">
-                            @if($absensi->participant_type == 'mahasiswa')
-                                {{ $absensi->participant->nim }}
+                            @if($absensi->participant)
+                                @if($absensi->participant_type == 'mahasiswa')
+                                    {{ $absensi->participant->nim }}
+                                @else
+                                    {{ $absensi->participant->nip }}
+                                @endif
                             @else
-                                {{ $absensi->participant->nip }}
+                                <span class="text-muted">-</span>
                             @endif
                         </td>
                         <td>
@@ -92,10 +102,19 @@
                         <td class="d-none d-md-table-cell">
                             <span class="badge bg-success">{{ $absensi->status }}</span>
                         </td>
+                        <td class="text-center">
+                            <form action="{{ route('absensi.destroy', $absensi) }}" method="POST" class="d-inline delete-form">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-sm btn-danger btn-delete">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-4">Belum ada data absensi</td>
+                        <td colspan="6" class="text-center text-muted py-4">Belum ada data absensi</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -108,4 +127,42 @@
         @endif
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    // SweetAlert for delete confirmation
+    document.querySelectorAll('.btn-delete').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const form = this.closest('.delete-form');
+
+            Swal.fire({
+                title: 'Yakin ingin menghapus?',
+                text: "Data absensi yang dihapus tidak dapat dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+    });
+
+    // Success message if exists
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: '{{ session('success') }}',
+            timer: 3000,
+            showConfirmButton: false
+        });
+    @endif
+</script>
 @endsection
