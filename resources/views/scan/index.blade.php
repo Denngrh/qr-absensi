@@ -1,8 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Scan QR Code')
 
-@section('styles')
+@section('content')
 <style>
     #reader {
         border: 3px solid #667eea;
@@ -26,50 +26,56 @@
         display: none;
     }
 </style>
-@endsection
 
-@section('content')
-<div class="mb-3 mb-md-4">
-    <h2 class="h4 h-md-2"><i class="bi bi-camera"></i> Scan QR Code Absensi</h2>
+<div class="row mb-3">
+    <div class="col">
+        <h4 class="mb-2"><i data-feather="camera"></i> Scan QR Code Absensi</h4>
+        <p class="text-muted">Scan QR Code peserta untuk mencatat kehadiran</p>
+    </div>
 </div>
 
 <div class="row">
     <div class="col-12 col-lg-8 mx-auto">
-        <div class="card shadow-sm">
-            <div class="card-header bg-white">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="bi bi-camera-video"></i> Kamera Scanner</h5>
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="card-title mb-0"><i data-feather="video"></i> Kamera Scanner</h5>
                     <button class="btn btn-sm btn-outline-primary" id="switchCamera" style="display: none;">
-                        <i class="bi bi-arrow-repeat"></i> Ganti Kamera
+                        <i data-feather="repeat"></i> Ganti Kamera
                     </button>
                 </div>
-            </div>
-            <div class="card-body p-2 p-md-3">
+
                 <div class="position-relative">
                     <div id="reader" class="w-100"></div>
                     <div class="scan-status" id="scanStatus">
-                        <i class="bi bi-hourglass-split"></i> Processing...
+                        <i data-feather="clock"></i> Processing...
                     </div>
                 </div>
+
                 <div class="alert alert-info mt-3 mb-0" role="alert">
-                    <i class="bi bi-info-circle"></i>
+                    <i data-feather="info" style="width: 16px; height: 16px;"></i>
                     <strong>Petunjuk:</strong> Arahkan kamera ke QR Code peserta untuk scan otomatis
                 </div>
             </div>
         </div>
 
+        <div class="alert alert-warning mt-3" role="alert">
+            <i data-feather="alert-triangle" style="width: 16px; height: 16px;"></i>
+            Pastikan kamera memiliki izin akses dan QR Code dalam kondisi baik untuk hasil terbaik
+        </div>
+
         <!-- Recent Scans -->
-        <div class="card mt-3 shadow-sm">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                <h6 class="mb-0"><i class="bi bi-clock-history"></i> Riwayat Scan Hari Ini</h6>
-                <span class="badge bg-primary" id="todayCount">0</span>
-            </div>
-            <div class="card-body p-0">
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="mb-0"><i data-feather="clock"></i> Riwayat Scan Hari Ini</h6>
+                    <span class="badge bg-primary" id="todayCount">0</span>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
-                        <thead class="table-light">
+                        <thead>
                             <tr>
-                                <th class="ps-3">Nama</th>
+                                <th>Nama</th>
                                 <th class="d-none d-md-table-cell">Tipe</th>
                                 <th class="d-none d-md-table-cell">ID</th>
                                 <th>Waktu</th>
@@ -81,6 +87,7 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
             </div>
         </div>
     </div>
@@ -306,6 +313,9 @@
         html5QrCode.stop().then(() => {
             currentCameraIndex = (currentCameraIndex + 1) % cameras.length;
             startCameraScanning(cameras[currentCameraIndex].id);
+
+            // Reinitialize feather icons
+            feather.replace();
         });
     });
 
@@ -315,5 +325,8 @@
             html5QrCode.stop();
         }
     });
+
+    // Initialize feather icons after page load
+    feather.replace();
 </script>
 @endsection

@@ -9,7 +9,7 @@ class PanitiaController extends Controller
 {
     public function index()
     {
-        $panitias = Panitia::latest()->paginate(10);
+        $panitias = Panitia::latest()->get();
         return view('panitia.index', compact('panitias'));
     }
 

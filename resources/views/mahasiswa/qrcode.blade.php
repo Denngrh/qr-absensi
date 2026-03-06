@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'QR Code - ' . $mahasiswa->nama)
 
@@ -61,9 +61,6 @@
                 <p class="text-muted">{{ $mahasiswa->nim }} - {{ $mahasiswa->jurusan }}</p>
                 <button class="btn btn-primary" onclick="downloadQR()">
                     <i class="bi bi-download"></i> Download QR Code
-                </button>
-                <button class="btn btn-success" onclick="printQR()">
-                    <i class="bi bi-printer"></i> Print QR Code
                 </button>
             </div>
         </div>
